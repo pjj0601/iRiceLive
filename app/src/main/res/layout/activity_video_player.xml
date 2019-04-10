@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--<EditText-->
+        <!--android:id="@+id/url"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:padding="10dp"-->
+        <!--android:text="rtmp://119.23.111.7:1935/hls/test" />-->
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal">-->
+
+        <!--<Button-->
+            <!--android:id="@+id/start"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Play" />-->
+
+        <!--<Button-->
+            <!--android:id="@+id/stop"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Stop" />-->
+    <!--</LinearLayout>-->
+
+
+
+    <FrameLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <io.vov.vitamio.widget.VideoView
+            android:id="@+id/surface_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+        <com.anenn.flowlikeviewlib.FlowLikeView
+            android:id="@+id/flowLikeView"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="40dp"
+            android:layout_marginRight="20dp"
+            android:layout_width="75dp"
+            android:layout_height="200dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:background="@android:color/transparent"
+                android:includeFontPadding="false"
+                android:onClick="addLikeView"
+                android:text="Like"
+                android:textColor="#0099cc"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </com.anenn.flowlikeviewlib.FlowLikeView>
+    </FrameLayout>
+</LinearLayout>

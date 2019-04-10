@@ -1,0 +1,32 @@
+apply plugin: 'com.android.library'
+
+allprojects {
+    repositories {
+        jcenter()
+        google()//新增这一行
+    }
+}
+dependencies {
+}
+
+android {
+    compileSdkVersion 21
+
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 21
+    }
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            jniLibs.srcDirs = ['libs']
+            aidl.srcDirs = ['src']
+            renderscript.srcDirs = ['src']
+            res.srcDirs = ['res']
+        }
+
+    }
+
+}
