@@ -2,6 +2,7 @@ package test.com.livetest;
 
 import android.app.Activity;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.github.faucamp.simplertmp.RtmpHandler;
@@ -22,6 +24,17 @@ import net.ossrs.yasea.SrsRecordHandler;
 
 import java.io.IOException;
 import java.net.SocketException;
+import java.util.Random;
+
+import master.flame.danmaku.controller.DrawHandler;
+import master.flame.danmaku.danmaku.model.BaseDanmaku;
+import master.flame.danmaku.danmaku.model.DanmakuTimer;
+import master.flame.danmaku.danmaku.model.IDanmakus;
+import master.flame.danmaku.danmaku.model.IDisplayer;
+import master.flame.danmaku.danmaku.model.android.DanmakuContext;
+import master.flame.danmaku.danmaku.model.android.Danmakus;
+import master.flame.danmaku.danmaku.parser.BaseDanmakuParser;
+import master.flame.danmaku.ui.widget.DanmakuView;
 
 /**
  * Created by Sikang on 2017/5/2.
@@ -29,6 +42,21 @@ import java.net.SocketException;
 
 public class CameraActivity extends Activity implements SrsEncodeHandler.SrsEncodeListener, RtmpHandler.RtmpListener, SrsRecordHandler.SrsRecordListener, View.OnClickListener {
     private static final String TAG = "CameraActivity";
+
+    private DanmakuView mDanmakuView;
+    private boolean showDanmaku;
+    private DanmakuContext danmakuContext;
+
+    /**
+     * 弹幕解析器
+     */
+    private BaseDanmakuParser parser = new BaseDanmakuParser() {
+        @Override
+        protected IDanmakus parse() {
+            return new Danmakus();
+        }
+    };
+
 
     private Button mPublishBtn;
     private Button mCameraSwitchBtn;
@@ -42,6 +70,9 @@ public class CameraActivity extends Activity implements SrsEncodeHandler.SrsEnco
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_camera);
+
+        initView();
+        initDanmaku();
 
         mPublishBtn = (Button) findViewById(R.id.publish);
         mCameraSwitchBtn = (Button) findViewById(R.id.swCam);
@@ -67,6 +98,110 @@ public class CameraActivity extends Activity implements SrsEncodeHandler.SrsEnco
         mPublisher.switchCameraFilter(MagicFilterType.BEAUTY);
         //打开摄像头，开始预览（未推流）
         mPublisher.startCamera();
+    }
+
+    /**
+     * 初始化View组件
+     */
+    private void initView() {
+        mDanmakuView = (DanmakuView) findViewById(R.id.danmaku_view_r);
+//        mOperationLayout = (LinearLayout) findViewById(R.id.operation_layout);
+//        mSend = (Button) findViewById(R.id.send);
+//        mText = (EditText) findViewById(R.id.edit_text);
+        //给弹幕层设置点击事件，判断是否显示发弹幕操作层
+    }
+
+
+
+    /**
+     * 初始化弹幕组件
+     */
+    private void initDanmaku() {
+        //给弹幕视图设置回调，在准备阶段获取弹幕信息并开始
+        mDanmakuView.setCallback(new DrawHandler.Callback() {
+            @Override
+            public void prepared() {
+                showDanmaku = true;
+                mDanmakuView.start();
+                generateSomeDanmaku();
+            }
+
+            @Override
+            public void updateTimer(DanmakuTimer timer) {
+
+            }
+
+            @Override
+            public void danmakuShown(BaseDanmaku danmaku) {
+
+            }
+
+            @Override
+            public void drawingFinished() {
+
+            }
+        });
+        //缓存，提升绘制效率
+        mDanmakuView.enableDanmakuDrawingCache(true);
+        //DanmakuContext主要用于弹幕样式的设置
+        danmakuContext = DanmakuContext.create();
+        danmakuContext.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_STROKEN,3);//描边
+        danmakuContext.setDuplicateMergingEnabled(true);//重复合并
+        danmakuContext.setScrollSpeedFactor(1.2f);//弹幕滚动速度
+        //让弹幕进入准备状态，传入弹幕解析器和样式设置
+        mDanmakuView.prepare(parser,danmakuContext);
+        //显示fps、时间等调试信息
+        mDanmakuView.showFPS(false);
+    }
+
+    /**
+     * 随机生成一些弹幕内容以供测试
+     */
+    private void generateSomeDanmaku() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (showDanmaku) {
+                    int time = new Random().nextInt(300);
+                    String content = "" + time + time;
+                    addDanmaku(content, false);
+                    try {
+                        Thread.sleep(time);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+    }
+
+
+    /**
+     * 向弹幕View中添加一条弹幕
+     *
+     * @param content    弹幕的具体内容
+     * @param withBorder 弹幕是否有边框
+     */
+    private void addDanmaku(String content, boolean withBorder) {
+        //弹幕实例BaseDanmaku,传入参数是弹幕方向
+        BaseDanmaku danmaku = danmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL);
+        danmaku.text = content;
+        danmaku.padding = 5;
+        danmaku.textSize = sp2px(20);
+        danmaku.textColor = Color.WHITE;
+        danmaku.setTime(mDanmakuView.getCurrentTime());
+        //加边框
+        if (withBorder) {
+            danmaku.borderColor = Color.GREEN;
+        }
+        mDanmakuView.addDanmaku(danmaku);
+    }
+    /**
+     * sp转px的方法。
+     */
+    public int sp2px(float spValue) {
+        final float fontScale = getResources().getDisplayMetrics().scaledDensity;
+        return (int) (spValue * fontScale + 0.5f);
     }
 
     @Override

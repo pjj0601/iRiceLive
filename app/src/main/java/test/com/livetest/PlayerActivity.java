@@ -135,7 +135,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener,IGe
                 String data = mText.getText().toString();
                 if (!TextUtils.isEmpty(data)){
                     addDanmaku(data,true);
-                    MQTTService.publish("测试一下子");
+                    MQTTService.publish(data);
                     mText.setText("");
 
                 }
@@ -193,7 +193,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener,IGe
         //让弹幕进入准备状态，传入弹幕解析器和样式设置
         mDanmakuView.prepare(parser,danmakuContext);
         //显示fps、时间等调试信息
-        mDanmakuView.showFPS(true);
+        mDanmakuView.showFPS(false);
     }
 
     /**
