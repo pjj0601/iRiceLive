@@ -19,6 +19,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 allprojects {
@@ -40,4 +49,12 @@ dependencies {
 
     implementation 'com.facebook.fresco:fresco:1.10.0'
     compile project(':lib')
+    compile project(':ndkbitmap-armv5')
+    compile project(':ndkbitmap-armv7a')
+    compile project(':ndkbitmap-x86')
+    compile project(':DanmakuFlameMaster')
+
+    implementation 'com.rabbitmq:amqp-client:4.0.0'
+    compile 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+    compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.1'
 }

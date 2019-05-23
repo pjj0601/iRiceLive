@@ -33,7 +33,7 @@ public class CameraActivity extends Activity implements SrsEncodeHandler.SrsEnco
     private Button mPublishBtn;
     private Button mCameraSwitchBtn;
     private Button mEncoderBtn;
-    private EditText mRempUrlEt;
+//    private EditText mRempUrlEt;
     private SrsPublisher mPublisher;
     private String rtmpUrl;
 
@@ -46,7 +46,7 @@ public class CameraActivity extends Activity implements SrsEncodeHandler.SrsEnco
         mPublishBtn = (Button) findViewById(R.id.publish);
         mCameraSwitchBtn = (Button) findViewById(R.id.swCam);
         mEncoderBtn = (Button) findViewById(R.id.swEnc);
-        mRempUrlEt = (EditText) findViewById(R.id.url);
+//        mRempUrlEt = (EditText) findViewById(R.id.url);
         mPublishBtn.setOnClickListener(this);
         mCameraSwitchBtn.setOnClickListener(this);
         mEncoderBtn.setOnClickListener(this);
@@ -74,8 +74,9 @@ public class CameraActivity extends Activity implements SrsEncodeHandler.SrsEnco
         switch (v.getId()) {
             //开始/停止推流
             case R.id.publish:
-                if (mPublishBtn.getText().toString().contentEquals("开始")) {
-                    rtmpUrl = mRempUrlEt.getText().toString();
+                if (mPublishBtn.getText().toString().contentEquals("开始直播")) {
+//                    rtmpUrl = mRempUrlEt.getText().toString();
+                    rtmpUrl = "rtmp://119.23.111.7:1935/hls/test";
                     if (TextUtils.isEmpty(rtmpUrl)) {
                         Toast.makeText(getApplicationContext(), "地址不能为空！", Toast.LENGTH_SHORT).show();
                     }

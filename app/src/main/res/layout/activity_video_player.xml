@@ -40,13 +40,40 @@
             android:id="@+id/surface_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+        <master.flame.danmaku.ui.widget.DanmakuView
+            android:id="@+id/danmaku_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <LinearLayout
+            android:id="@+id/operation_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal">
+            <EditText
+                android:id="@+id/edit_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="发送弹幕"/>
+        </LinearLayout>
+
+
+
 
 
         <com.anenn.flowlikeviewlib.FlowLikeView
             android:id="@+id/flowLikeView"
             android:layout_gravity="right|bottom"
-            android:layout_marginBottom="40dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginBottom="75dp"
+            android:layout_marginRight="25dp"
             android:layout_width="75dp"
             android:layout_height="200dp">
 

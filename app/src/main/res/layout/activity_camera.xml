@@ -25,14 +25,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="开始" />
+            android:text="开始直播" />
 
         <Button
             android:id="@+id/swCam"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="摄像头" />
+            android:text="切换摄像头" />
 
 
         <Button
@@ -43,14 +43,14 @@
             android:text="软编码" />
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/url"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="20dp"
-        android:text="rtmp://119.23.111.7:1935/hls/test"
-        android:padding="10dp"
-        android:textColor="#FFFFFF"
-        android:textSize="14dp" />
+    <!--<EditText-->
+        <!--android:id="@+id/url"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginRight="20dp"-->
+        <!--android:text="rtmp://119.23.111.7:1935/hls/test"-->
+        <!--android:padding="10dp"-->
+        <!--android:textColor="#FFFFFF"-->
+        <!--android:textSize="14dp" />-->
 
 </RelativeLayout>
